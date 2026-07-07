@@ -25,7 +25,7 @@ const NAV = [
   { href: "/dashboard/audit-logs", label: "Audit logs", icon: FileClock },
   { href: "/dashboard/reconciliation", label: "Reconciliation", icon: RefreshCw },
   { href: "/dashboard/settings", label: "Settings", icon: Settings },
-];
+] as const; // <-- Added 'as const' here to solve the TypeScript error
 
 export function Sidebar() {
   const pathname = usePathname();
@@ -38,7 +38,8 @@ export function Sidebar() {
       </div>
       <nav className="px-3">
         {NAV.map(({ href, label, icon: Icon }) => {
-          const active = pathname === href;
+          // Explicitly cast to string here just to safely check path equality
+          const active = pathname === (href as string);
           return (
             <Link
               key={href}
