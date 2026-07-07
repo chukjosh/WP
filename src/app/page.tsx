@@ -27,8 +27,6 @@ export default function LandingPage() {
         <DocsPreview />
         <CodeEditor />
         <Playground />
-        <Testimonials />
-        <FAQ />
         <FinalCta />
       </main>
       <Footer />

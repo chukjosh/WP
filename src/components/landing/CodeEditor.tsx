@@ -291,7 +291,7 @@ export default function CodeEditor() {
   };
 
   return (
-    <section className="mx-auto w-full max-w-6xl px-3 sm:px-6 py-8">
+    <section id="code-editor" className="mx-auto w-full max-w-6xl px-3 sm:px-6 py-8">
       {/* Container Frame */}
       <div className="overflow-hidden rounded-2xl border border-slate-800 bg-[#0B0F19] text-[#E2E8F0] shadow-2xl flex flex-col font-sans select-none backdrop-blur-xl">
         

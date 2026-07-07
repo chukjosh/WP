@@ -6,7 +6,7 @@ import { Menu, X, ArrowUpRight } from "lucide-react";
 
 const LINKS = [
   { href: "#product", label: "Product" },
-  { href: "#sdks", label: "SDKs" },
+  { href: "#code-editor", label: "Code Editor" },
   { href: "#playground", label: "Playground" },
   { href: "https://jack-wallet-primitive.mintlify.site/", label: "Docs", external: true },
 ];
