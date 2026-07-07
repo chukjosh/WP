@@ -302,7 +302,7 @@ export default function CodeEditor() {
             <span className="h-3 w-3 rounded-full bg-amber-500/80 transition-colors hover:bg-amber-500" />
             <span className="h-3 w-3 rounded-full bg-emerald-500/80 transition-colors hover:bg-emerald-500" />
           </div>
-          <div className="truncate px-4 text-xs font-medium tracking-wide text-slate-300 max-w-[140px] sm:max-w-none bg-slate-800/40 py-1 px-3 rounded-md border border-slate-700/30">
+          <div className="truncate px-4 text-xs font-medium tracking-wide text-slate-300 max-w-[140px] sm:max-w-none bg-slate-800/40 py-1 rounded-md border border-slate-700/30">
             {active.filename}
           </div>
           <button 
