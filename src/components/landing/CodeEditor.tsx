@@ -245,7 +245,8 @@ export default function CodeEditor() {
   const [terminalTab, setTerminalTab] = useState<"terminal" | "json">("json");
   const [responseCopied, setResponseCopied] = useState(false);
 
-  const active = SAMPLES.find((s) => s.id === activeId) ?? SAMPLES[0];
+  // Force TypeScript to recognize that this will never be undefined
+  const active = SAMPLES.find((s) => s.id === activeId) ?? SAMPLES[0]!;
   const [code, setCode] = useState(active.code);
   const [copied, setCopied] = useState(false);
 
