@@ -41,11 +41,16 @@ export function Globe() {
         const camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
         camera.position.z = 250;
 
-        // Track mouse position for interactivity
+        // Track mouse and touch positions for interactivity
         let mouseX = 0;
         let mouseY = 0;
         let targetRotationX = 0;
         let targetRotationY = 0;
+        
+        // Touch interaction tracking state
+        let lastTouchX = 0;
+        let lastTouchY = 0;
+        let isTouching = false;
 
         const handleMouseMove = (event: MouseEvent) => {
           if (!containerRef.current) return;
@@ -56,6 +61,40 @@ export function Globe() {
           // Calculate target rotations based on mouse position
           targetRotationY = (mouseX - 0.5) * Math.PI * 0.5;
           targetRotationX = (mouseY - 0.5) * Math.PI * 0.3;
+        };
+
+        const handleTouchStart = (event: TouchEvent) => {
+          const touch = event.touches[0];
+          if (touch) {
+            isTouching = true;
+            lastTouchX = touch.clientX;
+            lastTouchY = touch.clientY;
+          }
+        };
+
+        const handleTouchMove = (event: TouchEvent) => {
+          const touch = event.touches[0];
+          if (touch && isTouching) {
+            // Prevent standard mobile scrolling when swiping the globe
+            event.preventDefault();
+
+            const deltaX = touch.clientX - lastTouchX;
+            const deltaY = touch.clientY - lastTouchY;
+
+            // Sensitivity modifiers
+            targetRotationY += deltaX * 0.007;
+            targetRotationX += deltaY * 0.005;
+
+            // Clamping up/down rotation to prevent flipping upside down
+            targetRotationX = Math.max(-Math.PI / 3, Math.min(Math.PI / 3, targetRotationX));
+
+            lastTouchX = touch.clientX;
+            lastTouchY = touch.clientY;
+          }
+        };
+
+        const handleTouchEnd = () => {
+          isTouching = false;
         };
 
         const handleMouseClick = () => {
@@ -70,6 +109,11 @@ export function Globe() {
 
         containerRef.current!.addEventListener("mousemove", handleMouseMove);
         containerRef.current!.addEventListener("click", handleMouseClick);
+        
+        // Setup Mobile Touch Events
+        containerRef.current!.addEventListener("touchstart", handleTouchStart);
+        containerRef.current!.addEventListener("touchmove", handleTouchMove, { passive: false });
+        containerRef.current!.addEventListener("touchend", handleTouchEnd);
 
         // Create globe instance
         const globe = new ThreeGlobe()
@@ -78,7 +122,7 @@ export function Globe() {
           .atmosphereColor("#3b82f6")
           .atmosphereAltitude(0.2);
 
-        // Define arc connections (similar to design image)
+        // Define arc connections
         const arcsData = [
             // Major intercontinental routes
             { startLat: 40, startLng: -74, endLat: 51, endLng: 0 }, // NYC to London
@@ -216,10 +260,12 @@ export function Globe() {
           time += 1;
           animationIdRef.current = requestAnimationFrame(animate);
 
-          // Add automatic continuous rotation to target
-          targetRotationY += autoRotationSpeed;
+          // Continuous auto-rotation only loops if the user isn't holding down a finger
+          if (!isTouching) {
+            targetRotationY += autoRotationSpeed;
+          }
 
-          // Rotate globe with smooth interpolation based on mouse
+          // Rotate globe with smooth interpolation based on targets
           (globe as any).rotation.y += (targetRotationY - (globe as any).rotation.y) * 0.05;
           (globe as any).rotation.x += (targetRotationX - (globe as any).rotation.x) * 0.05;
 
@@ -248,6 +294,12 @@ export function Globe() {
           window.removeEventListener("resize", handleResize);
           containerRef.current?.removeEventListener("mousemove", handleMouseMove);
           containerRef.current?.removeEventListener("click", handleMouseClick);
+          
+          // Remove touch listeners
+          containerRef.current?.removeEventListener("touchstart", handleTouchStart);
+          containerRef.current?.removeEventListener("touchmove", handleTouchMove);
+          containerRef.current?.removeEventListener("touchend", handleTouchEnd);
+          
           if (animationIdRef.current) {
             cancelAnimationFrame(animationIdRef.current);
           }
@@ -269,7 +321,7 @@ export function Globe() {
   }, [isLoaded]);
 
   return (
-    <div className="relative w-full h-full flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing">
+    <div className="relative w-full h-full flex items-center justify-center overflow-hidden cursor-grab active:cursor-grabbing select-none touch-none">
       <div
         ref={containerRef}
         className="w-full h-full cursor-grab active:cursor-grabbing"
