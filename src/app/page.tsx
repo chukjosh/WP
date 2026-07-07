@@ -6,7 +6,7 @@ import { FeatureCards } from "@/components/landing/FeatureCards";
 import { BrowserMockups } from "@/components/landing/BrowserMockups";
 import { ArchitectureDiagram } from "@/components/landing/ArchitectureDiagram";
 import { DocsPreview } from "@/components/landing/DocsPreview";
-import { SdkSection } from "@/components/landing/SdkSection";
+import CodeEditor from "@/components/landing/CodeEditor";
 import { Playground } from "@/components/landing/Playground";
 import { Testimonials } from "@/components/landing/Testimonials";
 import { FAQ } from "@/components/landing/FAQ";
@@ -25,7 +25,7 @@ export default function LandingPage() {
         <FeatureCards />
         <ArchitectureDiagram />
         <DocsPreview />
-        <SdkSection />
+        <CodeEditor />
         <Playground />
         <Testimonials />
         <FAQ />
