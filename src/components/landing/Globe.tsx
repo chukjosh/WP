@@ -75,7 +75,7 @@ export function Globe() {
         const globe = new ThreeGlobe()
           .globeImageUrl("//cdn.jsdelivr.net/npm/three-globe/example/img/earth-night.jpg")
           .showAtmosphere(true)
-          .atmosphereColor(0x3b82f6)
+          .atmosphereColor("#3b82f6")
           .atmosphereAltitude(0.2);
 
         // Define arc connections (similar to design image)
