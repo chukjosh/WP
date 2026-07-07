@@ -240,7 +240,7 @@ function highlightJson(jsonStr: string) {
 }
 
 export default function CodeEditor() {
-  const [activeId, setActiveId] = useState(SAMPLES[0].id);
+  const [activeId, setActiveId] = useState(SAMPLES[0]!.id);
   const [showSidebar, setShowSidebar] = useState(false);
   const [terminalTab, setTerminalTab] = useState<"terminal" | "json">("json");
   const [responseCopied, setResponseCopied] = useState(false);
